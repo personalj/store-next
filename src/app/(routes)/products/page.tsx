@@ -5,8 +5,8 @@ import { FC } from 'react';
 import type { Metadata } from 'next';
 import { getCategories } from '@/services/categories/categories';
 import { getProducts } from '@/services/products/products';
-import HydratedCategories from '../../../components/categories/hydratedCategories';
-import HydratedProducts from '../../../components/products/hydratedProducts';
+import HydratedCategories from '@/components/categories/hydratedCategories';
+import HydratedProducts from '@/components/products/hydratedProducts';
 import classes from './products.module.scss';
 
 interface Props {
