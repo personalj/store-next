@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Image from 'next/image';
 import { Product } from '@/services/products/types';
 import Button from '@/components/ui/button/button';
 import { setToCart } from '@/store/cart/cartSlice';
@@ -17,7 +18,13 @@ const ProductInfo: FC<ChildProps> = ({ product }) => {
         <div className={classes.product__left}>
           <div className={classes.product__img}>
             {product.image ? (
-              <img src={product.image} alt={product.title} />
+              <Image
+                priority
+                width={500}
+                height={500}
+                src={product.image}
+                alt={product.title}
+              />
             ) : (
               <div>Image not found </div>
             )}

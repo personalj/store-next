@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Product } from '@/services/products/types';
 import Button from '@/components/ui/button/button';
 import classes from './productItem.module.scss';
@@ -16,7 +17,11 @@ const ProductItem: FC<ChildProps> = (props) => {
   return (
     <div className={classes.product}>
       <Link href={`/product/${id}`} className={classes.product__image}>
-        {image ? <img src={image} alt={title} /> : <div>Image not found </div>}
+        {image ? (
+          <Image priority width={400} height={400} src={image} alt={title} />
+        ) : (
+          <div>Image not found </div>
+        )}
       </Link>
       <Link href={`/product/${id}`} className={classes.product__title}>
         {title}
