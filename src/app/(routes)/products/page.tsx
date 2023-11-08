@@ -1,12 +1,9 @@
-import { dehydrate } from '@tanstack/query-core';
-import getQueryClient from '@/utils/getQueryClient';
-import Hydrate from '@/utils/hydrate.client';
 import { FC } from 'react';
 import type { Metadata } from 'next';
 import { getCategories } from '@/services/categories/categories';
 import { getProducts } from '@/services/products/products';
-import HydratedCategories from '@/components/categories/hydratedCategories';
-import HydratedProducts from '@/components/products/hydratedProducts';
+import Categories from '@/components/categories/categories';
+import ProductsList from '@/components/products/productList';
 import classes from './products.module.scss';
 
 interface Props {
@@ -20,26 +17,19 @@ export const metadata: Metadata = {
   description: 'Products page description',
 };
 
-const Products: FC<Props> = async (props, context) => {
+const Products: FC<Props> = async (props) => {
   const activeCategory: string | undefined = props.searchParams?.category;
-  const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(['categories'], getCategories);
-  await queryClient.prefetchQuery(['productsList', activeCategory], () =>
-    getProducts(activeCategory)
-  );
-
-  const dehydratedState = dehydrate(queryClient);
+  const categories: string[] = await getCategories();
+  const products = await getProducts(activeCategory);
 
   return (
     <div className={classes.info}>
-      <Hydrate state={dehydratedState}>
-        <aside className={classes.info__aside}>
-          <HydratedCategories activeCategory={activeCategory} />
-        </aside>
-        <div className={classes.info__main}>
-          <HydratedProducts activeCategory={activeCategory} />
-        </div>
-      </Hydrate>
+      <aside className={classes.info__aside}>
+        <Categories activeCategory={activeCategory} categories={categories} />
+      </aside>
+      <div className={classes.info__main}>
+        <ProductsList products={products} />
+      </div>
     </div>
   );
 };

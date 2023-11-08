@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, useState } from 'react';
 import ProductItem from './productItem';
 import { Product } from '@/services/products/types';

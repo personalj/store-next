@@ -15,7 +15,7 @@ export const useCartTotalQuantity = (cartList: Product[]): CartTotals => {
       (total, item) => total + item.price * item.quantity,
       0
     );
-    const roundedTotalPrice = parseFloat(totalPrice.toFixed(2));
+    const roundedTotalPrice = parseFloat(totalPrice?.toFixed(2));
     return { roundedTotalPrice, totalQuantity };
   }, [cartList]);
 };

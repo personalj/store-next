@@ -1,16 +1,28 @@
+'use client';
+
 import { FC } from 'react';
 import classes from './categoriesList.module.scss';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface ChildProps {
   activeCategory?: string;
   categories: string[];
-  handleCategoryClick: (item: string) => void;
 }
-const CategoriesList: FC<ChildProps> = ({
-  activeCategory,
-  categories,
-  handleCategoryClick,
-}) => {
+const Categories: FC<ChildProps> = ({ activeCategory, categories }) => {
+  const params = useSearchParams();
+  const router = useRouter();
+
+  const newParams = new URLSearchParams(params.toString());
+
+  const handleCategoryClick = (val: string) => {
+    if (val !== activeCategory) {
+      newParams.set('category', val);
+    } else {
+      newParams.delete('category');
+    }
+    router.push(`/products?${newParams.toString()}`);
+  };
+
   return (
     <ul className={classes.list}>
       {categories &&
@@ -30,4 +42,4 @@ const CategoriesList: FC<ChildProps> = ({
   );
 };
 
-export default CategoriesList;
+export default Categories;
