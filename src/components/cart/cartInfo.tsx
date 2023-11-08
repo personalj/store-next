@@ -6,8 +6,7 @@ import CartItem from '@/components/cart/cartItem';
 import Button from '@/components/ui/button/button';
 import classes from './cart.module.scss';
 
-import { CartContext } from '@/context/cart';
-import { CartType } from '@/context/cart';
+import { CartContext, CartType } from '@/context/cart';
 
 import { Product } from '@/services/products/types';
 

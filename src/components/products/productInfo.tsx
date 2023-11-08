@@ -5,8 +5,7 @@ import Image from 'next/image';
 import { Product } from '@/services/products/types';
 import Button from '@/components/ui/button/button';
 import classes from './productInfo.module.scss';
-import { CartContext } from '@/context/cart';
-import { CartType } from '@/context/cart';
+import { CartContext, CartType } from '@/context/cart';
 
 interface ChildProps {
   product: Product;

@@ -3,11 +3,11 @@ import { useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import bagIcon from '../../../public/images/bag.svg';
-import { CartContext } from '@/context/cart';
+import { CartContext, CartType } from '@/context/cart';
 import classes from '@/components/header/headerCart.module.scss';
 
 const HeaderCart = () => {
-  const { totalQuantity } = useContext(CartContext);
+  const { totalQuantity } = useContext<CartType>(CartContext);
 
   return (
     <Link href='/cart' className={classes.cart}>
