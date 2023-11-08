@@ -1,28 +1,29 @@
 'use client';
 
+import { useContext } from 'react';
 import Link from 'next/link';
 import CartItem from '@/components/cart/cartItem';
 import Button from '@/components/ui/button/button';
 import classes from './cart.module.scss';
 
-import { useAppSelector, useAppDispatch } from '@/hooks/useRedux';
-import {
-  clearCartList,
-  decrementCartItem,
-  deleteFromCart,
-  incrementCartItem,
-} from '@/store/cart/cartSlice';
-import { getCartProducts } from '@/store/cart/selectors';
-import { useCartTotalQuantity } from '@/hooks/useGetCartTotal';
+import { CartContext } from '@/context/cart';
+import { CartType } from '@/context/cart';
+
+import { Product } from '@/services/products/types';
 
 const CartInfo = () => {
-  const cartList = useAppSelector(getCartProducts);
-  const dispatch = useAppDispatch();
-  const { roundedTotalPrice } = useCartTotalQuantity(cartList);
+  const {
+    cartItems,
+    totalPrice,
+    clearCart,
+    deleteFromCart,
+    incrementCartItem,
+    decrementCartItem,
+  } = useContext<CartType>(CartContext);
 
   return (
     <>
-      {!cartList?.length ? (
+      {!cartItems?.length ? (
         <div>
           Add
           <Link href={'/products'}>
@@ -33,12 +34,10 @@ const CartInfo = () => {
       ) : (
         <>
           <div className={classes.cart__clear}>
-            <Button onClick={() => dispatch(clearCartList())}>
-              Clear cart
-            </Button>
+            <Button onClick={() => clearCart()}>Clear cart</Button>
           </div>
           <ul>
-            {cartList?.map((item) => (
+            {cartItems?.map((item: Product) => (
               <li key={item.id}>
                 <CartItem
                   id={item.id}
@@ -46,15 +45,15 @@ const CartInfo = () => {
                   price={item.price}
                   image={item.image}
                   quantity={item.quantity}
-                  onDelete={() => dispatch(deleteFromCart(item.id))}
-                  onIncrement={() => dispatch(incrementCartItem(item.id))}
-                  onDecrement={() => dispatch(decrementCartItem(item.id))}
+                  onDelete={() => deleteFromCart(item.id)}
+                  onIncrement={() => incrementCartItem(item.id)}
+                  onDecrement={() => decrementCartItem(item.id)}
                 />
               </li>
             ))}
           </ul>
           <div className={classes.cart__total}>
-            Total: <span>{roundedTotalPrice}$</span>
+            Total: <span>{parseFloat(totalPrice?.toFixed(2))}$</span>
           </div>
         </>
       )}

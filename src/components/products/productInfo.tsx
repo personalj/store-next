@@ -1,16 +1,19 @@
-import { FC } from 'react';
+'use client';
+
+import { FC, useContext } from 'react';
 import Image from 'next/image';
 import { Product } from '@/services/products/types';
 import Button from '@/components/ui/button/button';
-import { setToCart } from '@/store/cart/cartSlice';
-import { useAppDispatch } from '@/hooks/useRedux';
 import classes from './productInfo.module.scss';
+import { CartContext } from '@/context/cart';
+import { CartType } from '@/context/cart';
 
 interface ChildProps {
   product: Product;
 }
+
 const ProductInfo: FC<ChildProps> = ({ product }) => {
-  const dispatch = useAppDispatch();
+  const { addToCart } = useContext<CartType>(CartContext);
 
   return (
     <div className={classes.product}>
@@ -34,9 +37,7 @@ const ProductInfo: FC<ChildProps> = ({ product }) => {
           <h1 className={classes.product__title}>{product.title}</h1>
           <div className={classes.product__price}>{product.price} $</div>
           <p className={classes.product__description}>{product.description}</p>
-          <Button
-            onClick={() => dispatch(setToCart({ ...product, quantity: 1 }))}
-          >
+          <Button onClick={() => addToCart({ ...product, quantity: 1 })}>
             Add to cart
           </Button>
         </div>

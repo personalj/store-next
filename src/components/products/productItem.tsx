@@ -1,18 +1,17 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product } from '@/services/products/types';
 import Button from '@/components/ui/button/button';
 import classes from './productItem.module.scss';
-import { setToCart } from '@/store/cart/cartSlice';
-import { useAppDispatch } from '@/hooks/useRedux';
+import { CartContext } from '@/context/cart';
 
 interface ChildProps {
   product: Product;
 }
 const ProductItem: FC<ChildProps> = (props) => {
   const { id, title, price, image } = props.product;
-  const dispatch = useAppDispatch();
+  const { addToCart } = useContext(CartContext);
 
   return (
     <div className={classes.product}>
@@ -28,9 +27,7 @@ const ProductItem: FC<ChildProps> = (props) => {
       </Link>
       <div className={classes.product__price}>{price} $</div>
       <div className={classes.product__btn}>
-        <Button
-          onClick={() => dispatch(setToCart({ ...props.product, quantity: 1 }))}
-        >
+        <Button onClick={() => addToCart({ ...props.product, quantity: 1 })}>
           Add to cart
         </Button>
       </div>

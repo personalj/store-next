@@ -1,15 +1,13 @@
 'use client';
-
+import { useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import bagIcon from '../../../public/images/bag.svg';
-import { useAppSelector } from '@/hooks/useRedux';
-import { useCartTotalQuantity } from '@/hooks/useGetCartTotal';
+import { CartContext } from '@/context/cart';
 import classes from '@/components/header/headerCart.module.scss';
 
 const HeaderCart = () => {
-  const { cartList } = useAppSelector((state) => state.cart);
-  const { totalQuantity } = useCartTotalQuantity(cartList);
+  const { totalQuantity } = useContext(CartContext);
 
   return (
     <Link href='/cart' className={classes.cart}>
