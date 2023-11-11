@@ -15,7 +15,6 @@ export type CartType = {
   clearCart: () => void;
   incrementCartItem: (cartItemId: number) => void;
   decrementCartItem: (cartItemId: number) => void;
-  getCartTotal: () => void;
 };
 
 const defaultCartValue: CartType = {
@@ -27,7 +26,6 @@ const defaultCartValue: CartType = {
   clearCart: () => {},
   incrementCartItem: (cartItemId) => {},
   decrementCartItem: (cartItemId) => {},
-  getCartTotal: () => {},
 };
 
 export const CartContext = createContext<CartType>(defaultCartValue);
@@ -85,13 +83,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setCartItems([]);
   };
 
-  const getCartTotal = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-  };
-
   const totalQuantity = useMemo(() => {
     return cartItems?.reduce((total, item) => total + item.quantity, 0);
   }, [cartItems]);
@@ -125,7 +116,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         clearCart,
         incrementCartItem,
         decrementCartItem,
-        getCartTotal,
       }}
     >
       {children}
